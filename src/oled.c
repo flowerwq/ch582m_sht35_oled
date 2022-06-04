@@ -322,6 +322,7 @@ void OLED_ShowNum(uint8_t x,uint8_t y,uint32_t num,uint8_t len,uint8_t size1,uin
             }
   	}
 }
+//显示浮点数
 void OLED_ShowFNum(uint8_t x,uint8_t y,float Fnum,uint8_t size1,uint8_t mode)
 {
 	  uint8_t Data[]= " ";                                 
@@ -453,26 +454,18 @@ void oled_show(){
     OLED_ShowChinese(0,16,0,16,1);
     OLED_ShowChinese(18,16,1,16,1);
     OLED_ShowChinese(36,16,2,16,1);
-//	OLED_ShowNum(44,16,m,2,16,1);
-//	OLED_ShowFNum(44,16,m,16,1);
 	OLED_ShowChinese(80,16,3,16,1);
-
     OLED_ShowChinese(0,32,4,16,1);
     OLED_ShowChinese(18,32,5,16,1);
     OLED_ShowChinese(36,32,6,16,1);
-//	OLED_ShowNum(44,32,n,2, 16,1);
-//	OLED_ShowFNum(44,32,n,16,1);
-
     OLED_ShowChar(79,32,j,16,1);
 	OLED_ShowChar(90,32,i,16,1);
 	OLED_ShowChar(98,32,k,16,1);
-
     OLED_Refresh();
-//    DelayMs(500);
-
 }
 
 void oled_change_data_show(float m,float n){
 	OLED_ShowFNum(44,16,m,16,1);
 	OLED_ShowFNum(44,32,n,16,1);
+	 DelayMs(100);
 }

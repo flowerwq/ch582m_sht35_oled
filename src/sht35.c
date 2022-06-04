@@ -4,15 +4,14 @@
 #include <CH58x_common.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "oled.h"
 
 #define SHT35_READ_HUMITURE (uint16_t)0x2c06
 #define POLYNOMIAL_CXDZ 0x31
 
-uint8_t RxData[Size];
 uint8_t read_buffer[Size];
 static volatile int time_out_flag = 0;
 
-//int counts=0;
 __INTERRUPT
 __HIGH_CODE
 void TMR2_IRQHandler(void) // TMR0 定时中断
@@ -23,7 +22,6 @@ void TMR2_IRQHandler(void) // TMR0 定时中断
         TMR2_Disable();
         TMR2_ClearITFlag(TMR0_3_IT_CYC_END);// 清除中断标志
         time_out_flag=1;
-//		counts++;
     }
 }
 static int sht35_timer_init(){
@@ -242,4 +240,20 @@ unsigned char SHT3X_CRC(uint8_t *data, uint8_t len)
             }
     }
   return crc;
+}
+
+
+void read_display_data(){
+	float ftemp=0;
+	float fhumi=0;
+	int temp;
+	int humi;
+
+	sht35_read_temphumi(&temp,&humi);
+	ftemp=temp/(10.0);
+	fhumi=humi/(10.0);
+	PRINT("temp=%.1f,humi=%.1f\r\n",ftemp,fhumi);
+	PRINT("\r\n");
+	oled_change_data_show(ftemp,fhumi);
+	OLED_Refresh();
 }
